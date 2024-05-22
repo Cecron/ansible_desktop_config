@@ -1,9 +1,9 @@
-- name: Install packages
+- name: Install required packages
   ansible.builtin.apt:
     name:
       - git
-      - stow
-      - tmux
+      - fzf
+      - zsh
     cache_valid_time: 3600
-    state: latest
+    state: present
     install_recommends: no
