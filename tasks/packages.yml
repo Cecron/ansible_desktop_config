@@ -2,7 +2,6 @@
   ansible.builtin.apt:
     name:
       - git
-      - stow
       - tmux
     cache_valid_time: 3600
     state: latest

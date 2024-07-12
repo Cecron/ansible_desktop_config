@@ -2,12 +2,13 @@
 - hosts: all
   connection: local
   become: true
-  pre_tasks:
-    - name: Update apt cache
-      apt:
-        update_cache: yes
-      changed_when: false
+  # pre_tasks:
+  #   - name: Update apt cache
+  #     apt:
+  #       update_cache: yes
+  #     changed_when: false
 
   tasks:
-    - include_tasks: tasks/packages.yml
-    - include_tasks: tasks/zsh.yml
+    # - include_tasks: tasks/packages.yml
+    # - include_tasks: tasks/zsh.yml
+    - include_tasks: tasks/dotfiles.yml
