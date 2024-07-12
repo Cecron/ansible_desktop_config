@@ -1,0 +1,37 @@
+- name: Install packages required by Emacs
+  become: true
+  ansible.builtin.apt:
+    name:
+      # Used for Emacs magit
+      - git
+      # Used for Emacs vterm
+      - cmake
+      - libtool-bin
+      - libvterm-dev
+      # Running screen inside vterm
+      - screen
+      # Used inside Emacs
+      - fonts-firacode
+      - ripgrep
+      - texlive-latex-extra
+    cache_valid_time: 3600
+    state: present
+    install_recommends: no
+
+- name: Install Emacs via snap
+  become: true
+  community.general.snap:
+    name: emacs
+    classic: true
+
+# This uses the locally installed module stow.
+# https://github.com/caian-org/ansible-stow
+- name: Install dotfiles package used via Emacs
+  stow:
+    state: latest  # Note, 'latest' always register as changed
+    package: "{{ item }}"
+    dir: "{{ ansible_env.HOME }}/dotfiles"
+    target: "{{ ansible_env.HOME }}"
+  with_items:
+    - screen
+    - emacs

@@ -1,4 +1,4 @@
-- name: Install required packages
+- name: Install required packages for handling dotfiles
   become: true
   ansible.builtin.apt:
     name:
@@ -21,7 +21,9 @@
 # https://github.com/caian-org/ansible-stow
 - name: Install stow dotfiles package
   stow:
-    state: present
-    package: stow
+    state: latest  # Note, 'latest' always register as changed
+    package:
+      - stow
+      - git
     dir: "{{ ansible_env.HOME }}/dotfiles"
     target: "{{ ansible_env.HOME }}"
