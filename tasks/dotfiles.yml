@@ -1,4 +1,5 @@
 - name: Install required packages
+  become: true
   ansible.builtin.apt:
     name:
       - git
@@ -8,22 +9,19 @@
     install_recommends: no
 
 - name: Dump info
-  become: false
   debug:
-    var: ansible_env.SUDO_USER
+    var: ansible_env.HOME
 
 - name: Checkout dotfile repo from github
-  become: false
   ansible.builtin.git:
     repo: git@github.com:Cecron/dotfiles.git
-    dest: "/home/{{ ansible_env.SUDO_USER }}/dotfiles"
+    dest: "{{ ansible_env.HOME }}/dotfiles"
 
 # This uses the locally installed module stow.
 # https://github.com/caian-org/ansible-stow
 - name: Install stow dotfiles package
-  become: false
   stow:
     state: present
     package: stow
-    dir: "/home/{{ ansible_env.SUDO_USER }}/dotfiles"
-    target: "/home/{{ ansible_env.SUDO_USER }}"
+    dir: "{{ ansible_env.HOME }}/dotfiles"
+    target: "{{ ansible_env.HOME }}"

@@ -1,12 +1,7 @@
 ---
 - hosts: all
   connection: local
-  become: true
-  # pre_tasks:
-  #   - name: Update apt cache
-  #     apt:
-  #       update_cache: yes
-  #     changed_when: false
+  become: false
 
   tasks:
     # - include_tasks: tasks/packages.yml
