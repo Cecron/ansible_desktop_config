@@ -1,10 +1,13 @@
 ---
+# Run using e.g.  ansible-playbook -v --ask-become -i "$(hostname --short)," local.yml
 - hosts: all
   connection: local
   become: false
-
+  # vars:
+  #   target_user: "{{ ansible_env.USER }}"
   tasks:
     - include_tasks: tasks/dotfiles.yml
+    - include_tasks: tasks/python.yml
     - include_tasks: tasks/emacs.yml
+    - include_tasks: tasks/zsh.yml
     # - include_tasks: tasks/packages.yml
-    # - include_tasks: tasks/zsh.yml

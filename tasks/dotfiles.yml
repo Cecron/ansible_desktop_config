@@ -21,7 +21,7 @@
 # https://github.com/caian-org/ansible-stow
 - name: Install stow dotfiles package
   stow:
-    state: latest  # Note, 'latest' always register as changed
+    state: present  # Note, 'latest' always register as changed
     package:
       - stow
       - git

@@ -1,10 +1,32 @@
-- name: Install required packages
+- name: Install required packages for zsh
   become: true
   ansible.builtin.apt:
     name:
-      - git
       - fzf
       - zsh
     cache_valid_time: 3600
     state: present
     install_recommends: no
+
+# - name: Debug messages
+#   debug:
+#     # var: ansible_env
+#     msg:
+#       - Or write messages instead of var..
+#       - "original user {{ target_user }}"
+#       - "current user {{ ansible_env.USER }}"
+
+- name: "Ensure default shell is /bin/zsh for {{ ansible_env.USER }}"
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_env.USER }}"
+    shell: /bin/zsh
+
+- name: Install dotfiles packages used by zsh
+  stow:
+    state: present
+    package:
+      - zsh
+    dir: "{{ ansible_env.HOME }}/dotfiles"
+    target: "{{ ansible_env.HOME }}"
+

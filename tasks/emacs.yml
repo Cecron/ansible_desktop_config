@@ -24,11 +24,9 @@
     name: emacs
     classic: true
 
-# This uses the locally installed module stow.
-# https://github.com/caian-org/ansible-stow
 - name: Install dotfiles package used via Emacs
   stow:
-    state: latest  # Note, 'latest' always register as changed
+    state: present
     package: "{{ item }}"
     dir: "{{ ansible_env.HOME }}/dotfiles"
     target: "{{ ansible_env.HOME }}"

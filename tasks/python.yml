@@ -1,0 +1,51 @@
+- name: Install Python packages
+  become: true
+  ansible.builtin.apt:
+    name:
+      - python3-dev
+      - python3-pip
+      - python3-venv
+    cache_valid_time: 3600
+    state: present
+    install_recommends: no
+
+- name: Set Python Launcher verison
+  ansible.builtin.set_fact:
+    py_version: "1.0.1-x86_64-unknown-linux-gnu"
+
+- name: Fetch Python Launcher for Unix
+  # https://github.com/brettcannon/python-launcher/releases/latest
+  ansible.builtin.get_url:
+    url: "https://github.com/brettcannon/python-launcher/releases/download/v1.0.1/python_launcher-{{ py_version }}.tar.xz"
+    dest: "/tmp/python_launcher-{{ py_version }}.tar.xz"
+  register: fetch_python_launcher
+
+- name: Install Python Launcher for Unix
+  become: true
+  ansible.builtin.command:
+    cmd: "tar --extract --strip-components 1 --directory /usr/local --file /tmp/python_launcher-{{ py_version }}.tar.xz"
+  when: fetch_python_launcher.changed
+
+- name: Add deadsnakes Python PPA repository
+  # https://github.com/deadsnakes/
+  become: true
+  ansible.builtin.apt_repository:
+    repo: ppa:deadsnakes/ppa
+    state: present
+
+- name: Install recent Python versions
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - python3.12
+      - python3.12-dev
+      - python3.12-venv
+    cache_valid_time: 3600
+    state: present
+    install_recommends: no
+
+- name: Create Python ~/local/share/pyvenv for general use
+  ansible.builtin.pip:
+    name: pipx
+    virtualenv: ~/local/share/pyvenv
+    virtualenv_command: py -m venv
