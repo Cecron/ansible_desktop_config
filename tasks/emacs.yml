@@ -8,6 +8,10 @@
       - cmake
       - libtool-bin
       - libvterm-dev
+      # Used by flyspell
+      - hunspell
+      - hunspell-en-us
+      - hunspell-sv
       # Running screen inside vterm
       - screen
       # Used inside Emacs
