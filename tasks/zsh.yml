@@ -16,6 +16,41 @@
 #       - "original user {{ target_user }}"
 #       - "current user {{ ansible_env.USER }}"
 
+# Install via downloading .sh file that has a known hash
+# We have an installation instruction like
+#   curl -sS https://starship.rs/install.sh | sh
+#
+# Find out md5 value on Windows with
+#   CertUtil -hashfile yourFileName MD5
+#
+# MD5 hash of C:\Users\tim\Downloads\install.sh:
+# 7a2db9f2d0e34bbee35d9b710ceb1a12
+#
+# starship --version
+# starship 1.19.0
+# branch:master
+# commit_hash:
+# build_time:2024-05-15 17:09:04 +00:00
+# build_env:rustc 1.78.0 (9b00956e5 2024-04-29),
+- name: Install Starship
+  block:
+    - name: Set expected md5 of starship installer
+      set_fact:
+        md5_value: 7a2db9f2d0e34bbee35d9b710ceb1a12
+
+    - name: Download install file for starship and verify md5
+      ansible.builtin.get_url:
+        url: https://starship.rs/install.sh
+        dest: /tmp/starship_install.sh
+        checksum: "md5:{{ md5_value }}"
+      register: download_install_file
+
+    - name: Install starship using downloaded shell script
+      become: true
+      ansible.builtin.script:
+        cmd: /tmp/starship_install.sh --yes
+      when: download_install_file.changed
+
 - name: "Ensure default shell is /bin/zsh for {{ ansible_env.USER }}"
   become: true
   ansible.builtin.user:

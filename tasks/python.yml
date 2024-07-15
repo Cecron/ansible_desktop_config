@@ -47,5 +47,5 @@
 - name: Create Python ~/local/share/pyvenv for general use
   ansible.builtin.pip:
     name: pipx
-    virtualenv: ~/local/share/pyvenv
+    virtualenv: ~/.local/share/pyvenv
     virtualenv_command: py -m venv
