@@ -44,7 +44,7 @@
     state: present
     install_recommends: no
 
-- name: Create Python ~/local/share/pyvenv for general use
+- name: Create Python ~/.local/share/pyvenv for general use
   ansible.builtin.pip:
     name: pipx
     virtualenv: ~/.local/share/pyvenv

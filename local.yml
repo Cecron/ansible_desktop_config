@@ -6,6 +6,7 @@
   # vars:
   #   target_user: "{{ ansible_env.USER }}"
   tasks:
+    - include_tasks: tasks/wsl.yml
     - include_tasks: tasks/dotfiles.yml
     - include_tasks: tasks/python.yml
     - include_tasks: tasks/emacs.yml

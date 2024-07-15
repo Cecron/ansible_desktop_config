@@ -1,0 +1,25 @@
+# Make wslview indes.html available
+# This will magically make links in org-mode opened in Windows browser..
+
+- name: Check if we are running under wsl
+  ansible.builtin.shell: systemd-detect-virt
+  register: systemd_detect_virt
+  changed_when: false
+
+- name: Add wslutilities PPA repository
+  # https://wslutiliti.es/wslu/install.html#ubuntu
+  become: true
+  ansible.builtin.apt_repository:
+    repo: ppa:wslutilities/wslu
+    state: present
+
+- name: Install wsl utilities, since we are running under wsl
+  become: true
+  ansible.builtin.apt:
+    name:
+      - wslu
+      - ubuntu-wsl
+    cache_valid_time: 3600
+    state: present
+    install_recommends: no
+  when: systemd_detect_virt.stdout == "wsl"
