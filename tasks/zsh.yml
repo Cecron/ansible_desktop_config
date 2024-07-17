@@ -62,6 +62,7 @@
     state: present
     package:
       - zsh
+      - starship
     dir: "{{ ansible_env.HOME }}/dotfiles"
     target: "{{ ansible_env.HOME }}"
 
