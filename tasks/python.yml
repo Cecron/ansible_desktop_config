@@ -9,6 +9,17 @@
     state: present
     install_recommends: no
 
+- name: Install pipx package
+  become: true
+  ansible.builtin.apt:
+    name:
+      - pipx
+    cache_valid_time: 3600
+    state: present
+    install_recommends: no
+  notify:
+    - Ensure pipx path
+
 - name: Set Python Launcher verison
   ansible.builtin.set_fact:
     py_version: "1.0.1-x86_64-unknown-linux-gnu"
@@ -49,3 +60,7 @@
     name: pipx
     virtualenv: ~/.local/share/pyvenv
     virtualenv_command: py -m venv
+
+- name: Install Hatch
+  community.general.pipx:
+    name: hatch
