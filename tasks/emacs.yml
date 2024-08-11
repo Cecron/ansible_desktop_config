@@ -4,6 +4,8 @@
     name:
       # Used for Emacs magit
       - git
+      # Used for exporting org-mode
+      - texlive-plain-generic
       # Used for Emacs vterm
       - cmake
       - libtool-bin

@@ -1,0 +1,27 @@
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
+    name:
+      - git
+      - tmux
+    cache_valid_time: 3600
+    state: latest
+    install_recommends: no
+
+- name: Ensure tmux plugin directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.tmux/plugins"
+    state: directory
+
+- name: Install tmux plugin manager tpm by cloning
+  ansible.builtin.git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: "{{ ansible_env.HOME }}/.tmux/plugins/tpm"
+
+- name: Install dotfiles packages used by tmux
+  stow:
+    state: present
+    package:
+      - tmux
+    dir: "{{ ansible_env.HOME }}/dotfiles"
+    target: "{{ ansible_env.HOME }}"
