@@ -1,0 +1,12 @@
+- name: Ensure fonts directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.fonts"
+    state: directory
+
+- name: Download CommitMono Nerd Font
+  ansible.builtin.unarchive:
+    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/CommitMono.zip
+    dest: "{{ ansible_env.HOME }}/.fonts"
+    remote_src: true
+  notify:
+    - Rebuild font cache

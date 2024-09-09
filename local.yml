@@ -9,6 +9,7 @@
     - include_tasks: tasks/wsl.yml
     - include_tasks: tasks/dotfiles.yml
     - include_tasks: tasks/python.yml
+    - include_tasks: tasks/font.yml
     - include_tasks: tasks/emacs.yml
     - include_tasks: tasks/zsh.yml
     - include_tasks: tasks/tmux.yml

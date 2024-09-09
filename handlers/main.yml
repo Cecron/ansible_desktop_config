@@ -1,2 +1,5 @@
 - name: Ensure pipx path
   command: pipx ensurepath
+
+- name: Rebuild font cache
+  command: fc-cache -fv
