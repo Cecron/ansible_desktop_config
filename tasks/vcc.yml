@@ -1,0 +1,8 @@
+- name: Install commands used by vcc
+  become: true
+  ansible.builtin.apt:
+    name:
+      - curl
+    cache_valid_time: 3600
+    state: present
+    install_recommends: no
