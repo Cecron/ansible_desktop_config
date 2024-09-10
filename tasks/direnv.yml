@@ -1,0 +1,23 @@
+- name: Set direnv version
+  ansible.builtin.set_fact:
+    direnv_version: "v2.34.0/direnv.linux-amd64"
+    direnv_md5: 2905e92125977f4ec7f661a6ef1c463f
+
+- name: Install direnv {{ direnv_version }}
+  ansible.builtin.get_url:
+    url: "https://github.com/direnv/direnv/releases/download/{{ direnv_version }}"
+    dest: ~/.local/bin/direnv
+    mode: '0755'
+    checksum: "md5:{{ direnv_md5 }}"
+
+- name: Hook direnv into zsh
+  ansible.builtin.lineinfile:
+    path: ~/.zshrc
+    line: eval "$(direnv hook zsh)"
+    state: present
+
+- name: Hook direnv into bash
+  ansible.builtin.lineinfile:
+    path: ~/.bashrc
+    line: eval "$(direnv hook bash)"
+    state: present
