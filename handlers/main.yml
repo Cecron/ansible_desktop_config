@@ -3,3 +3,6 @@
 
 - name: Rebuild font cache
   command: fc-cache -fv
+
+- name: Source cargo env file
+  command: source ~/.cargo/env

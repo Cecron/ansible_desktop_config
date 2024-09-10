@@ -32,7 +32,7 @@
 # commit_hash:
 # build_time:2024-05-15 17:09:04 +00:00
 # build_env:rustc 1.78.0 (9b00956e5 2024-04-29),
-- name: Install Starship
+- name: Install the Starship prompt
   block:
     - name: Set expected md5 of starship installer
       set_fact:

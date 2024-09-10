@@ -48,9 +48,9 @@
   become: true
   ansible.builtin.apt:
     pkg:
-      - python3.12
-      - python3.12-dev
-      - python3.12-venv
+      - python3.11
+      - python3.11-dev
+      - python3.11-venv
     cache_valid_time: 3600
     state: present
     install_recommends: no
@@ -61,6 +61,23 @@
     virtualenv: ~/.local/share/pyvenv
     virtualenv_command: py -m venv
 
-- name: Install Hatch
-  community.general.pipx:
-    name: hatch
+- name: Install uv
+  tags: [never]
+  block:
+    - name: Set expected md5 of uv installer
+      set_fact:
+        md5_value: fd49f008af7e0832a962281a8d0cf932
+
+    - name: Download install file for uv and verify md5
+      ansible.builtin.get_url:
+        url: https://astral.sh/uv/install.sh
+        dest: /tmp/uv-installer.sh
+        checksum: "md5:{{ md5_value }}"
+      register: download_install_file
+
+    - name: Install uv using downloaded shell script
+      ansible.builtin.script:
+        cmd: /tmp/uv-installer.sh
+      when: download_install_file.changed
+      notify:
+        - Source cargo env file
