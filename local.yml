@@ -16,6 +16,7 @@
     - include_tasks: tasks/zsh.yml
     - include_tasks: tasks/tmux.yml
     - include_tasks: tasks/direnv.yml
+    - include_tasks: tasks/wezterm.yml
     # - include_tasks: tasks/packages.yml
 
   handlers:
