@@ -38,6 +38,7 @@
   when: fetch_python_launcher.changed
 
 - name: Add deadsnakes Python PPA repository
+  tags: [never]
   # https://github.com/deadsnakes/
   become: true
   ansible.builtin.apt_repository:
@@ -45,6 +46,7 @@
     state: present
 
 - name: Install recent Python versions
+  tags: [never]
   become: true
   ansible.builtin.apt:
     pkg:
@@ -66,7 +68,7 @@
   block:
     - name: Set expected md5 of uv installer
       set_fact:
-        md5_value: fd49f008af7e0832a962281a8d0cf932
+        md5_value: a7a17d918f0081803cc8e41ff08412c4
 
     - name: Download install file for uv and verify md5
       ansible.builtin.get_url:
@@ -81,3 +83,9 @@
       when: download_install_file.changed
       notify:
         - Source cargo env file
+
+- name: Install basedpyright
+  community.general.pipx:
+    name: basedpyright
+  environment:
+    PIPX_HOME: ~/.local/share/pyvenv

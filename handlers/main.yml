@@ -5,4 +5,4 @@
   command: fc-cache -fv
 
 - name: Source cargo env file
-  command: source ~/.cargo/env
+  command: source $HOME/.cargo/env
