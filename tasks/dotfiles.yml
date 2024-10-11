@@ -27,3 +27,9 @@
       - git
     dir: "{{ ansible_env.HOME }}/dotfiles"
     target: "{{ ansible_env.HOME }}"
+
+- name: Setup Focus follow mouse
+  community.general.dconf:
+    key: /org/gnome/desktop/wm/preferences
+    value: focus-mode
+    state: present
