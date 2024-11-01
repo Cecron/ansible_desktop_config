@@ -12,7 +12,7 @@
 
 - name: Hook direnv into zsh
   ansible.builtin.lineinfile:
-    path: ~/.zshrc
+    path: ~/.config/zsh/.zshrc
     line: eval "$(direnv hook zsh)"
     state: present
 

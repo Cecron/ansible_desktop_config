@@ -6,12 +6,30 @@
   # vars:
   #   target_user: "{{ ansible_env.USER }}"
   tasks:
+    - name: Check if we are running on WSL
+      ansible.builtin.shell: systemd-detect-virt
+      register: systemd_detect_virt
+      changed_when: false
+
+    - name: Set fact for wsl
+      ansible.builtin.set_fact:
+        is_wsl: "{{ systemd_detect_virt.stdout == 'wsl' }}"
+
+    - name: Show value
+      debug:
+        var: is_wsl
+
     - include_tasks: tasks/wsl.yml
+      when: is_wsl
+
     - include_tasks: tasks/dotfiles.yml
     - include_tasks: tasks/docker.yml
     - include_tasks: tasks/vcc.yml
     - include_tasks: tasks/python.yml
+
     - include_tasks: tasks/font.yml
+      when: not is_wsl
+
     - include_tasks: tasks/emacs.yml
     - include_tasks: tasks/zsh.yml
     - include_tasks: tasks/tmux.yml
