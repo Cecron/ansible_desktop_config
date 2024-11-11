@@ -25,9 +25,12 @@
     package:
       - stow
       - git
+      - environment.d
     dir: "{{ ansible_env.HOME }}/dotfiles"
     target: "{{ ansible_env.HOME }}"
 
+# Manually get with:
+#   get org.gnome.desktop.wm.preferences focus-mode
 - name: Setup Focus follow mouse
   community.general.dconf:
     key: /org/gnome/desktop/wm/preferences
