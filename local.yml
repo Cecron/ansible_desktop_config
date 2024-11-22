@@ -10,6 +10,7 @@
       ansible.builtin.shell: systemd-detect-virt
       register: systemd_detect_virt
       changed_when: false
+      ignore_errors: true
 
     - name: Set fact for wsl
       ansible.builtin.set_fact:
