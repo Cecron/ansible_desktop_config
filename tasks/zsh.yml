@@ -2,11 +2,23 @@
   become: true
   ansible.builtin.apt:
     name:
-      - fzf
       - zsh
     cache_valid_time: 3600
     state: present
     install_recommends: no
+
+- name: Install fzf
+  block:
+    - name: Download prebuilt binary
+      ansible.builtin.get_url:
+        url: https://github.com/junegunn/fzf/releases/download/v0.56.3/fzf-0.56.3-linux_amd64.tar.gz
+        dest: /tmp/fzf-0.56.3-linux_amd64.tar.gz
+        checksum: sha256:78e96a88cecfbdb3ff65df89cc47c02573407aee0edd08c87e18a8033d498fef
+
+    - name: Unarchive the fzf binary
+      ansible.builtin.unarchive:
+        src: /tmp/fzf-0.56.3-linux_amd64.tar.gz
+        dest: ~/.local/bin
 
 # - name: Debug messages
 #   debug:
