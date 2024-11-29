@@ -64,3 +64,12 @@
         src: "~/.local/plantuml/plantuml-{{ version }}.jar"
         dest: ~/.local/plantuml/plantuml.jar
         state: link
+
+- name: Install Graphviz used in PlantUml
+  become: true
+  ansible.builtin.apt:
+    name:
+      - graphviz
+    cache_valid_time: 3600
+    state: latest
+    install_recommends: no
