@@ -1,10 +1,8 @@
-- name: Install packages
+- name: Install useful packages
   become: true
   ansible.builtin.apt:
     name:
-      - git
-      - tmux
-      - graphviz
+      - libsecret-tools
     cache_valid_time: 3600
     state: latest
     install_recommends: no
