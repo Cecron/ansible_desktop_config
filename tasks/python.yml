@@ -88,4 +88,4 @@
   community.general.pipx:
     name: basedpyright
   environment:
-    PIPX_HOME: ~/.local/share/pyvenv
+    PIPX_HOME: "{{ ansible_env.HOME }}/.local/share/pyvenv"

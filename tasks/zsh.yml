@@ -3,6 +3,7 @@
   ansible.builtin.apt:
     name:
       - zsh
+      - fd-find  # the package for fd is called fd-find on Ubuntu
     cache_valid_time: 3600
     state: present
     install_recommends: no
@@ -45,6 +46,7 @@
 # build_time:2024-05-15 17:09:04 +00:00
 # build_env:rustc 1.78.0 (9b00956e5 2024-04-29),
 - name: Install the Starship prompt
+  # tags: never
   block:
     - name: Set expected md5 of starship installer
       set_fact:

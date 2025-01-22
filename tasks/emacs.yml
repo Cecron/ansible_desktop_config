@@ -73,3 +73,12 @@
     cache_valid_time: 3600
     state: latest
     install_recommends: no
+
+- name: Install imagemagick to see thumbnails in Emacs dired
+  become: true
+  ansible.builtin.apt:
+    name:
+      - graphviz
+    cache_valid_time: 3600
+    state: latest
+    install_recommends: no
