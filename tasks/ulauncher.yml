@@ -1,0 +1,37 @@
+- name: Add ulauncher PPA repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: ppa:agornostal/ulauncher
+    state: present
+
+- name: Install ulauncher
+  become: true
+  ansible.builtin.apt:
+    name:
+      - wmctrl # used for wayland workaround, https://github.com/Ulauncher/Ulauncher/wiki/Hotkey-In-Wayland
+      - ulauncher
+    cache_valid_time: 3600
+    state: latest
+    install_recommends: no
+
+# Change the flameshot executable in .desktop file for ulauncher (and others)
+# https://ostechnix.com/how-to-hide-applications-from-ubuntu-dash/
+- name: Do we have a flameshot.desktop file?
+  ansible.builtin.stat:
+    path: /usr/share/applications/org.flameshot.Flameshot.desktop
+  register: flameshot_desktop_file
+
+- name: Copy flameshot.desktop locally
+  ansible.builtin.copy:
+    src: "{{ flameshot_desktop_file.stat.path }}"  # /usr/share/applications/org.flameshot.Flameshot.desktop
+    dest: ~/.local/share/applications/org.flameshot.Flameshot.desktop
+  when: flameshot_desktop_file.stat.exists
+
+# It seems you need to logout and in again to make this take affect...
+- name: Change flameshot execution to run gui
+  ansible.builtin.lineinfile:
+    path: ~/.local/share/applications/org.flameshot.Flameshot.desktop
+    regexp: '^Exec=flameshot$'
+    line: Exec=flameshot gui
+    create: false
+    state: present
