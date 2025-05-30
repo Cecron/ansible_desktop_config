@@ -1,0 +1,28 @@
+- name: Install Cargo Binstall
+  # https://github.com/cargo-bins/cargo-binstall
+  block:
+    - name: Set expected md5 of cargo-binstall installer
+      set_fact:
+        md5_value: c97eac8ea4b21f34a7d3f80be4ef5770
+
+    - name: Download install file for cargo-binstall and verify md5
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh
+        dest: /tmp/cargo-install-from-binstall-release.sh
+        checksum: "md5:{{ md5_value }}"
+      register: download_install_file
+
+    - name: Install Binstall using downloaded shell script
+      ansible.builtin.script:
+        cmd: /tmp/cargo-install-from-binstall-release.sh
+      when: download_install_file.changed
+      notify:
+        - Source cargo env file
+
+# - name: Install Rust package Binstall
+#   community.general.cargo:
+#     name: cargo-binstall
+
+- name: Install jj
+  # https://jj-vcs.github.io/jj/v0.23.0/install-and-setup/
+  shell: cargo-binstall --strategies crate-meta-data jj-cli

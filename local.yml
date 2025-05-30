@@ -38,6 +38,7 @@
     - include_tasks: tasks/wezterm.yml
     - include_tasks: tasks/packages.yml
     - include_tasks: tasks/ulauncher.yml
+    - include_tasks: tasks/cargo_binstall.yml
 
   handlers:
     - import_tasks: handlers/main.yml
