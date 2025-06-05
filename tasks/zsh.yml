@@ -9,6 +9,8 @@
     install_recommends: no
 
 - name: Install fzf
+  # https://github.com/junegunn/fzf
+  # https://github.com/junegunn/fzf/releases
   block:
     - name: Download prebuilt binary
       ansible.builtin.get_url:
@@ -20,6 +22,24 @@
       ansible.builtin.unarchive:
         src: /tmp/fzf-0.56.3-linux_amd64.tar.gz
         dest: ~/.local/bin
+
+- name: Install zoxide
+  # https://github.com/ajeetdsouza/zoxide
+  block:
+    - name: Set expected md5 of zoxide installer
+      set_fact:
+        md5_value: 8ef6df74f61c16190e99b59a298469f2
+    - name: Download install script
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh
+        dest: /tmp/zoxide_install.sh
+        checksum: "md5:{{ md5_value }}"
+      register: download_install_file
+
+    - name: Install zoxide using downloaded shell script
+      ansible.builtin.script:
+        cmd: /tmp/zoxide_install.sh
+      when: download_install_file.changed
 
 # - name: Debug messages
 #   debug:
@@ -50,7 +70,7 @@
   block:
     - name: Set expected md5 of starship installer
       set_fact:
-        md5_value: 7a2db9f2d0e34bbee35d9b710ceb1a12
+        md5_value: cbd8f469792242d7918cba20c9399216
 
     - name: Download install file for starship and verify md5
       ansible.builtin.get_url:
