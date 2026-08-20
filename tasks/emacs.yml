@@ -20,6 +20,8 @@
       - fonts-firacode
       - ripgrep
       - texlive-latex-extra
+      # Used for code formatting
+      - clang-format
     cache_valid_time: 3600
     state: present
     install_recommends: no
