@@ -32,8 +32,14 @@
 # Manually get with:
 #   gsettings get org.gnome.desktop.wm.preferences focus-mode
 # If not having click here, you can't move windows between screens using keyboard :-(
+- name: Check if gsettings is available
+  ansible.builtin.command: which gsettings
+  register: gsettings_check
+  ignore_errors: yes
+  
 - name: Setup Focus follow mouse
   community.general.dconf:
     key: /org/gnome/desktop/wm/preferences/focus-mode
     value: "'click'"
     state: present
+  when: gsettings_check.rc == 0
